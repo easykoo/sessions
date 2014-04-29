@@ -70,6 +70,10 @@ type Session interface {
 	Flashes(vars ...string) []interface{}
 	// Options sets confuguration for a session.
 	Options(Options)
+	// Returns Values
+	Values() map[interface{}]interface{}
+	// Returns Session ID
+	GetId() string
 }
 
 // Sessions is a Middleware that maps a session.Session service into the Martini handler chain.
@@ -158,6 +162,15 @@ func (s *session) Session() *sessions.Session {
 func (s *session) Written() bool {
 	return s.written
 }
+
+func (s *session) Values() map[interface{}]interface{} {
+	return s.session.Values
+}
+
+func (s *session) GetId() string {
+	return s.session.ID
+}
+
 
 func check(err error, l *log.Logger) {
 	if err != nil {
